@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * Created by Tristan on 23-04-18.
  */
+
+//hello
 public class Text {
     ArrayList<Phrase> phrases = new ArrayList<>();
     String fileName;
