@@ -1,0 +1,1904 @@
+﻿the following content is provided under
+
+a Creative Commons license your support
+
+will help MIT OpenCourseWare continue to
+
+offer high quality educational resources
+
+for free
+
+to make a donation or view additional
+
+materials from hundreds of MIT courses
+
+visit MIT opencourseware at ocw.mit.edu
+
+we start a brand new exciting topic
+
+dynamic programming yeah so exciting
+
+actually I'm really excited because
+
+dynamic programming is my favorite thing
+
+in the world in algorithms and it's
+
+going to be the next four lectures it's
+
+so exciting it has lots of different
+
+facets it's a very general powerful
+
+design technique we don't talk a lot
+
+about algorithm design in this class but
+
+dynamic programming is one that's so
+
+important and also takes a little while
+
+to settle in we we like to inject it
+
+into you now in double-o 6 so in general
+
+our motivation is designing new
+
+algorithms and dynamic programming also
+
+called DP is a great way all right a
+
+very general powerful way to do this
+
+it's especially good and intended for
+
+optimization problems things like
+
+shortest paths you want to find the best
+
+way to do something shortest paths you
+
+want to find the shortest path the
+
+minimum length path you want to minimize
+
+maximize something that's an
+
+optimization problem and typically good
+
+algorithms to solve them involve dynamic
+
+programming it's a bit of a broad
+
+statement you can also think of dynamic
+
+programming as a kind of exhaustive
+
+search which is usually a bad thing to
+
+do because it leads to exponential time
+
+but if you do it in a clever way by
+
+dynamic programming you typically get
+
+polynomial polynomial time so one
+
+perspective is the dynamic programming
+
+is approximately a careful brute force
+
+it's kind of a funny combination
+
+and I'm gonna oxymoron we take the idea
+
+of brute force which is try all
+
+possibilities and you do it carefully
+
+and you get it to polynomial time there
+
+are a lot of problems where essentially
+
+the only known polynomial time algorithm
+
+is via dynamic programming doesn't
+
+always work there's some problems where
+
+we don't think there are polynomial time
+
+algorithms but when it's possible DP is
+
+a nice sort of general approach to it
+
+and we're going to be talking a lot
+
+about dynamic programming has a lot of
+
+different there's a lot of different
+
+ways to think about it we'll look at a
+
+few today we're going to warm up today
+
+with some fairly easy problems that we
+
+already know how to solve namely
+
+computing Fibonacci numbers which is
+
+pretty easy and computing shortest paths
+
+and then in the next three lectures
+
+we're going to get to more interesting
+
+examples where it's pretty surprising
+
+that you can even solve the problem in
+
+polynomial time probably the first
+
+burning question on your mind though is
+
+why is it called dynamic programming
+
+what does that even mean and I used to
+
+have this feel about well you know
+
+programming refers to the I think is the
+
+British notion of the word where it's
+
+about optimization optimization in
+
+American English is something like
+
+programming in British English where you
+
+know you want to set up the program the
+
+schedule for your trains or something I
+
+think is where programming comes from
+
+originally but I looked up the actual
+
+history of why is it called dynamic
+
+programming dynamic programming is
+
+invented by a guy named Richard bellman
+
+you may have heard of bellman being the
+
+bellman-ford algorithm so this is
+
+actually the precursor to bellman-ford
+
+and we're going to see bellman-ford come
+
+up naturally in this setting so here's
+
+here's a quote about him says bellman
+
+explained that he invented the named
+
+dynamic programming to hide the fact
+
+that he was doing mathematical research
+
+happen he was working at this place
+
+called rant and under a secretary of
+
+defense who had a pathological fear and
+
+hatred for the term research uh-huh so
+
+he settled on the term dynamic
+
+programming because it would you it
+
+would be difficult to give a
+
+short of meaning to it and because it
+
+was something not even a congressman
+
+could object to basically it sounded
+
+cool so that's that's the origin of the
+
+name dynamic programming so why is it
+
+called that who knows I mean now you
+
+know but it's not it's a weird term just
+
+take it for what it is it may make sense
+
+some kind of sense pen all right so we
+
+are going to start with this example of
+
+how to compute Fibonacci numbers and
+
+maybe before we actually start I'm going
+
+to give you a a sneak peek what you can
+
+think of dynamic programming s and this
+
+this equation so to speak is going to
+
+change throughout today's lecture at the
+
+end we'll settle on a sort of more
+
+accurate perspective the basic idea of
+
+dynamic programming is to take a problem
+
+split it into subproblems solve those
+
+subproblems and reuse the solutions to
+
+your subproblems it's like a lesson in
+
+recycling okay so we'll see that in
+
+Fibonacci numbers so you remember
+
+Fibonacci numbers right number of
+
+rabbits you have on day n if they
+
+reproduce we've we've mentioned them
+
+before we're talking about AVL trees I
+
+think so this is a usual you can think
+
+of it as a recursive definition or
+
+recurrence on Fibonacci numbers it's a
+
+definition of what the antenna tree
+
+number is so let's suppose our goal an
+
+algorithmic problem is compute the nth
+
+Fibonacci number and I'm going to assume
+
+here that that fits in a word and so
+
+basic arithmetic addition whatever is
+
+constant time per operation so how do we
+
+do it you all know how to do it anyways
+
+but
+
+I'm going to give you the dynamic
+
+programming perspective on things so
+
+this will seem kind of obvious but it is
+
+a except we're going to apply exactly
+
+the same principles that we will apply
+
+over and over in dynamic programming but
+
+here it's in a very familiar setting so
+
+we're going to start with the naive
+
+recursive algorithm and that is if you
+
+want to compute the Fibonacci number you
+
+check whether you're in the base case
+
+I'm going to write it this way so f is
+
+just our return value you'll see why
+
+write it this way in a moment then you
+
+return F in the base case it's 1
+
+otherwise you recursively call Fibonacci
+
+of n minus 1 you recursively call
+
+Fibonacci of n minus 2 add them together
+
+return that this is a correct algorithm
+
+is it a good algorithm no very bad
+
+exponential time how do we know it's
+
+exponential time other than from
+
+experience well we can write the running
+
+time as a recurrence t of n represents
+
+the time to compute the nth Fibonacci
+
+number how can I write the recurrence
+
+good throwback to the early lectures
+
+divide and conquer
+
+here was this yeah
+
+yeah n minus one plus T of n minus two
+
+plus constant audition I don't know how
+
+many you have by now okay so to create
+
+the nth Fibonacci number we have to
+
+compute the N minus first Fibonacci
+
+number and the n minus second Fibonacci
+
+number that's these two recursions and
+
+then we take constant time otherwise we
+
+do constant number of additions
+
+comparisons return all these operations
+
+take constant time so that's a
+
+recurrence how do we solve this
+
+recurrence well one way is to see this
+
+is Fibonacci recurrence so it's the same
+
+thing this is plus whatever but in
+
+particularly this is at least the entry
+
+of adachi number and if you know
+
+fibonacci stuff that's about the golden
+
+ratio to the nth power which is bad we
+
+had a similar recurrence in AVL trees
+
+and so another way to solve it let's
+
+just good review say oh well that's at
+
+least two times T of n minus two it's
+
+going to be monotone the bigger n is the
+
+more work you have to do because for the
+
+n thing you have to do the n minus first
+
+thing so we could just reduce enmity of
+
+n minus 1 to T of n minus 2 that will
+
+give us a lower bound and now these two
+
+terms now this is sort of an easy thing
+
+you see that you're multiplying by two
+
+each time you're subtracting two from
+
+any time how many times can I subtract
+
+two from N and over two times before I
+
+get down to a constant and so this is
+
+equal to 2 to the N over 2 I mean times
+
+some constant which is what you get in
+
+the base case so I guess I should say
+
+theta this thing is theta that okay so
+
+it's at least that big and the right
+
+constant is fee and the base of the
+
+exponent
+
+okay so that's a bad algorithm we all
+
+know it's a bad algorithm but I'm going
+
+to give you a general approach for
+
+making bad algorithms like this good and
+
+that general approach is called
+
+memoization we're good here and this is
+
+a technique of dynamic programming I'm
+
+going to call this the memorized dynamic
+
+programming out so um I settle on using
+
+memo in the notes yeah the idea is
+
+simple whenever we compute a Fibonacci
+
+number we put it in a dictionary if it
+
+and then when we need to compute the nth
+
+Fibonacci number we check is it already
+
+in the dictionary did we already solve
+
+this problem if so return that answer
+
+otherwise compute it okay you'll see the
+
+transformation is very simple
+
+okay these two lines are identical to
+
+these two lines okay so you can see how
+
+the transformation works in general you
+
+can do this with any recursive algorithm
+
+memoization transformation on that
+
+algorithm which is we initially make an
+
+empty dictionary filled memo and before
+
+we actually do the computation we say
+
+well check whether this this version of
+
+the Fibonacci problem computing F of n
+
+is already in our dictionary so if that
+
+key is already in the dictionary we
+
+return the corresponding value in the
+
+dictionary so and then once we've
+
+computed the and Fibonacci number if we
+
+bother to do this if this didn't apply
+
+then we store it in the memo table so we
+
+store we say well if you ever need to
+
+compute F of n again here it is and then
+
+we return that value okay so this is a
+
+general procedure apply to any recursive
+
+algorithm with no side-effects I guess
+
+technically and turns out this makes the
+
+algorithm efficient now there's a lot of
+
+ways to see why it's efficient in
+
+general maybe it's helpful to think
+
+about the recursion tree so if you want
+
+to compute F n in the old algorithm we
+
+compute FN minus 1 and FN minus 2
+
+completely separately to compute FN
+
+minus 1 we compute FN minus 2 and FN
+
+minus 3 to compute FN minus 2 we compute
+
+FN minus 3 and FN minus 4 and so on and
+
+you can sort of see why that's
+
+exponential
+
+because we're only decrementing and by
+
+one or two each time but then you
+
+observe hey these FN minus 3s are the
+
+same
+
+I should really only have to compute the
+
+once and that's what we're doing here
+
+the first time you call FN minus 3 you
+
+do work but once it's done and you go
+
+over to this other recursive call this
+
+will just get cut off there's no tree
+
+here here we might have some recursive
+
+calling here we won't because it's
+
+already in the memo table ok in fact
+
+this already happens FN minus 2 this
+
+whole this whole tree disappears because
+
+FN minus 2 has already been done ok so
+
+it's clear why it improves things so in
+
+fact you can you can argue that this
+
+call will be free because you already
+
+did the work in here but I want to give
+
+you a very particular way of thinking
+
+about why this is efficient which is
+
+following so you could write down a
+
+recurrence for the running time here but
+
+in some sense recurrences aren't quite
+
+the right way of thinking about this
+
+because recursion is kind of a rare
+
+thing if you're calling Fibonacci of
+
+some value K you're only going to make
+
+recursive calls the first time you call
+
+Fibonacci of K because henceforth it's
+
+been the you've put it in the memo table
+
+you will not recurse so you can think of
+
+there being two versions of calling
+
+Fibonacci of K there's the first time
+
+which is the non memorized version that
+
+does recursion doesn't work and then
+
+every time henceforth you're you're
+
+doing memorized calls with Fibonacci
+
+okay and those cost constant time
+
+so the memorized calls cost constant
+
+time so we can think of them as
+
+basically free that when you call
+
+Fibonacci of n minus 2 because that's a
+
+memorized call it's you really doesn't
+
+pay anything for it I mean you already
+
+paying constant time to do addition and
+
+whatever so you don't have to worry
+
+about the time there's no recursion here
+
+okay and then what we care about is that
+
+the number of non memorized calls which
+
+is the first time you call Fibonacci of
+
+K is in no theta is even necessary we
+
+are going to call Fibonacci of 1 at some
+
+point we're going to call Fibonacci of 2
+
+at some point and the original call is
+
+Fibonacci then all of those things will
+
+be called at some point that's pretty
+
+easy to see but in particular certainly
+
+at most this we never call Fibonacci of
+
+n plus 1 to compute Fibonacci of n so
+
+it's at most n calls indeed it will be
+
+exactly n calls that are not memorized
+
+those ones we have to pay for how much
+
+do we have to pay well if you don't
+
+count the recursion which is what this
+
+recurrence does if you ignore recursion
+
+then the total amount of work done here
+
+is constant okay so I will say the non
+
+recursive work per call is constant and
+
+therefore I claim that the running time
+
+is constant I'm sorry is linear constant
+
+would be pretty amazing this is actually
+
+not the best algorithm as an aside the
+
+best algorithm for computing the nth
+
+Fibonacci number uses log n arithmetic
+
+operations so you can do better but if
+
+you want to see that you should take six
+
+oh four six okay we're just going to get
+
+to linear today which is a lot better
+
+than exponential so why linear because
+
+there's n
+
+nann memorized calls and each of them
+
+cost constant so it's the product of
+
+those two numbers okay
+
+this is an important idea and it's so
+
+important I am going to write it down
+
+again in a slightly more general
+
+framework in general in dynamic
+
+programming
+
+I didn't say why it's called memoization
+
+a ideas you have this memo pad where you
+
+write down all your scratch work that's
+
+this memo dictionary and to memorize is
+
+to write down on your memo pad I didn't
+
+make it up another crazy term it means
+
+remember and then you remember all the
+
+solutions that you've done and then you
+
+reuse those solutions
+
+now these solutions are not really a
+
+solution to the problem that I care
+
+about the problem I care about is
+
+computing the nth Fibonacci number to
+
+get there I had to compute other
+
+Fibonacci numbers why uh you know
+
+because I had a recursive formulation
+
+this is not always the way to solve a
+
+problem but usually when you're solving
+
+something you can split it in two parts
+
+into subproblems we call them they're
+
+not always of the same flavor as your
+
+original goal problem but there's some
+
+kind of related parts and this is the
+
+big challenge in designing a dynamic
+
+program is to figure out what are the
+
+subproblems let's say always the first
+
+thing I want to know about a dynamic
+
+program is what are the subproblems
+
+somehow they are designed to help solve
+
+your actual problem
+
+and the idea of memoization is once you
+
+solve a subproblem write down the answer
+
+if you ever need to solve that same
+
+subproblem again
+
+you reuse the answer so that is the core
+
+idea and so in this sense dynamic
+
+programming is essentially recursion
+
+plus memorization and so in this case
+
+these are the subproblems Fibonacci of 1
+
+through Fibonacci of n the one we care
+
+about is Fibonacci of n but to get there
+
+we solve these other subproblems in all
+
+cases if this is the situation so for
+
+any dynamic program the running time is
+
+going to equal equal to the number of
+
+different subproblems you might have to
+
+solve or that you do solve times the
+
+amount of time you spend per subproblem
+
+ok in this situation we had n
+
+subproblems and for each of them we
+
+spent constant time and when I measure
+
+the time for subproblem which in the
+
+fibonacci case I claim is constant I
+
+ignore recursive calls that's the key we
+
+don't have to solve recurrences with
+
+dynamic programming yay
+
+no recurrence is necessary ok don't
+
+count recursions obviously don't count
+
+memorized recursions the reason is I
+
+only need to count them once after the
+
+first time I do it it's free so I count
+
+how many different subproblems do I need
+
+to do these are there going to be the
+
+expensive recursions where I do work I
+
+do some amount of work but I don't count
+
+the recursions because otherwise I'd be
+
+double counting I only want to count
+
+each subproblem once and then this will
+
+solve it so a simple idea in general
+
+dynamic programming is super simple idea
+
+it's nothing fancy it's basically just
+
+memorization there is one extra trick
+
+we're going to pull out
+
+but that's the idea all right let me
+
+tell you another perspective this is the
+
+one maybe most commonly taught is to
+
+think of I'm not a particular fan of it
+
+I really like memorization I think it's
+
+a simple idea and as long as you
+
+remember this formula here it's really
+
+easy to work with okay but some people
+
+like to think of it this way
+
+and so we can pick whichever way you
+
+find most intuitive instead of thinking
+
+of a recursive algorithm which in some
+
+sense starts at the top of the big of
+
+what you want to solve and works its way
+
+down you can do the reverse you can
+
+start at the bottom and work your way up
+
+and this is probably how you normally
+
+think about computing Fibonacci numbers
+
+or how you learned it before I'm going
+
+to write it in a slightly funny way the
+
+point I want to make is that the
+
+transformation I'm doing from the naive
+
+recursive algorithm to the memorized
+
+algorithm to the bottom-up algorithm is
+
+completely automated I'm not thinking
+
+I'm just doing ok it's easy this code is
+
+exactly the same as this code and is
+
+that code except I replace n by K just
+
+because I need a couple of different n
+
+values here or I want to iterate over n
+
+values and then there's this stuff
+
+around that code which is just formulaic
+
+a little bit of thought goes into this
+
+for loop but that's it ok this does
+
+exactly the same thing as the memorized
+
+algorithm
+
+maybe takes a little bit of thinking to
+
+realize if you unroll all the recursion
+
+that's happening here and just write it
+
+out sequentially this is exactly what's
+
+happening ok this code does exactly the
+
+same additions exactly the same
+
+computations as this the only difference
+
+is how you get there here we're using a
+
+loop here we're using recursion but the
+
+same things happen in the same order
+
+it's really no difference between the
+
+code this code is probably going to be
+
+more efficient in practice because you
+
+don't make function calls so much in
+
+fact I stick made a little mistake here
+
+it's not a function call it's just a
+
+lookup into a table here I'm using a
+
+hash table to be simple but of course
+
+you could use an array okay be it but
+
+they're both constant time with good
+
+hashing all right so is it clear what
+
+this is doing I think so I think I made
+
+a little typo so we have to compute the
+
+typos we have to compute f1 up to FN
+
+which in Python is that and you know we
+
+compute it exactly how we used to except
+
+now instead of recursing I know that
+
+when I'm computing the K Fibonacci
+
+number and so many typos guys are
+
+laughing when I compute the K Fibonacci
+
+number I know that I've already computed
+
+the previous two why because I'm doing
+
+them an increasing order nothing fancy
+
+then I can just do this and the
+
+solutions will just be waiting there if
+
+they weren't I'd get a key error so I'd
+
+know that there's a bug but in fact I
+
+won't get a cure I will have always
+
+computed these things already
+
+then I store it in my table then I ate
+
+eventually I've solved all the
+
+subproblems f1 through FN and the one I
+
+cared about was the end point ok so
+
+straightforward I'm do this because I
+
+don't really want to have to go through
+
+this transformation for every single
+
+problem we do I'm doing it in Fibonacci
+
+because it's super easy to write the
+
+code out explicitly but you can do it
+
+for all of the dynamic programs that we
+
+cover in the next four lectures ok I'm
+
+going to give you now the general case
+
+this was the special Fibonacci version
+
+in general the bottom up does exactly
+
+the same computation as the memorized
+
+version and what we're doing is actually
+
+a topological sort of the subproblem
+
+dependency dag so in this case the
+
+dependency dag is very simple in order
+
+to compute i'll do it backwards in order
+
+to compute FN i need to know FN minus 1
+
+and FN minus 2 if I can do if I know
+
+those I can compute FN then there's FN
+
+minus 3 which is necessary to compute
+
+this one and that one and so on so you
+
+see what this dag looks like now I've
+
+drawn it conveniently so all the edges
+
+go left to right so this is a
+
+topological order from left to right and
+
+so I just need to do f1 f2 up to FN in
+
+order ok usually it's totally obvious
+
+what order to solve the subproblems in
+
+but in general what we what you should
+
+have in mind is that we are doing a
+
+topological sort here we just did it in
+
+our heads because it's so easy and
+
+usually it's so easy it's just a for
+
+loop nothing fancy alright missing an
+
+arrow
+
+and let's do something a little more
+
+interesting shall we
+
+alright one thing you can do from this
+
+bottom up perspective is you can save
+
+space storage space in your algorithm we
+
+don't usually worry about space in this
+
+class but it matters in reality so here
+
+we're building a table of size n but in
+
+fact we really only need to remember the
+
+last two values so you could just store
+
+the last two values and each time you
+
+make a new one
+
+delete the oldest so by thinking a
+
+little bit here you realize you only
+
+need constant space still linear time at
+
+constant space and that's it that's
+
+often the case from the bottom-up
+
+perspective you see what you really need
+
+to store what you need to keep track of
+
+all right I guess another nice thing
+
+about this perspective is the running
+
+time is totally obvious right this is
+
+clearly constant time so this is clearly
+
+linear time whereas in this memo i's
+
+algorithm you have to think about when's
+
+going to be memorized once it's not I
+
+still like this perspective because with
+
+this rule just multiply a number of
+
+subproblems by time per subproblem you
+
+get the answer but it's a little less
+
+obvious than then code like this so you
+
+know choose however you like to think
+
+about it all right we move on to
+
+shortest paths
+
+so I'm again as usual thinking about
+
+single source shortest paths so we want
+
+to compute the shortest path weight from
+
+s to V for all V ok I'd like to write
+
+this initially as a naive recursive
+
+algorithm which I can then memorize
+
+which I can then bottom up if I I just
+
+made that up so how could I write this
+
+as a naive recursive algorithm
+
+it's not so obvious okay but first I'm
+
+going to tell you how just as a yeah
+
+an Oracle tells you here's what you
+
+should do but then we're going to think
+
+about go back step back
+
+well actually I mean it's up to you we
+
+could either I could tell you the answer
+
+and then we could figure out how we got
+
+there
+
+or we could just figure out the answer
+
+preferences
+
+figure it out alright good no divine
+
+inspirational laugh so let me give you a
+
+tool tool is guessing okay this may
+
+sound silly but it's a very powerful
+
+tool okay the general idea is suppose
+
+you don't know something but you'd like
+
+to know it so I'd like you know what's
+
+the answer this question I don't know
+
+and I really want a cushion how am I
+
+gonna answer the question guess okay
+
+it's a tried and tested method for
+
+solving any problem okay I'm belaboring
+
+the point here uh-huh
+
+the algorithmic concept is don't just
+
+try any guess try them all okay also
+
+pretty simple
+
+I said dynamic programming was simple
+
+okay try all guesses this is central to
+
+the phonemic programming I know it
+
+sounds obvious but if I want to fix my
+
+equation here dynamic programming is
+
+roughly recursion plus memoization this
+
+should really be plus guessing
+
+memorization which is obvious guessing
+
+which is obvious are these central
+
+concepts to dynamic programming trying
+
+to make it sound easy because usually
+
+people have trouble with dynamic
+
+programming it is easy try all the
+
+guesses that's something a computer can
+
+do great this is the brute-force part
+
+okay but we're going to do it carefully
+
+not that carefully I mean we're just
+
+trying all the guesses take the best one
+
+that's kind of important that we can
+
+choose one to be called best that's why
+
+dynamic programming is good for
+
+optimization problems you want to
+
+maximize something minimize something
+
+you try them all and then you can forget
+
+about all of them and just reduce it
+
+down to one thing which is the best one
+
+or a best one okay so now I want you to
+
+try to apply this principle to shortest
+
+paths now I'm going to draw a picture
+
+which may help have the source s we have
+
+some vertex V we'd like to find the
+
+shortest a shortest path from s to V and
+
+suppose I want to know what this
+
+shortest path is suppose this was it you
+
+have an idea ready yeah
+
+everywhere
+
+good so I can look at all the places I
+
+could go from s and then look at the
+
+shortest paths from there to V so we
+
+could call this an S Prime so here's the
+
+idea there's some hypothetical shortest
+
+path I don't know where it goes first so
+
+I will guess where it goes first I know
+
+it the first edge must be one of the
+
+outgoing edges from s I don't know which
+
+one try them all very simple idea then
+
+from each of those if somehow I could
+
+compute the shortest path from there to
+
+V just do that and take the best choice
+
+for what that first edge was so this
+
+would be the guess first edge approach
+
+it's a very good idea not quite the one
+
+I wanted because unfortunately that
+
+changes s and so this would work it
+
+would just be slightly less efficient if
+
+I'm solving single source shortest paths
+
+so I'm going to tweak that idea slightly
+
+by guessing the last edge instead of the
+
+first edge they're really equivalent if
+
+I was doing this I'd essentially be
+
+solving a single target shortest paths
+
+which we talked about before so I'm
+
+going to draw the same picture I want to
+
+get to V I'm going to guess the last
+
+edge call it UV I know it's one of the
+
+incoming edges to be unless s equals V
+
+then there's a special case as long as
+
+this path has length at least one
+
+there's some last edge what is it I
+
+don't know guess guess all the possible
+
+incoming edges to V and then recursively
+
+compute the shortest path from s to u
+
+and then add on the edge V ok so what
+
+does this shortest path it's Delta of s
+
+comma U which is looks the same it's
+
+another subproblem that I want to solve
+
+there's the subproblems here I care
+
+about so that's good I take that I add
+
+on the weight of the edge UV
+
+and that should hopefully give me Delta
+
+of s comma V well if I was lucky and I
+
+guess the right choice of you now in
+
+reality I'm not lucky so I have to
+
+minimize over all edges you V so this is
+
+the we're minimizing over the choice of
+
+U vo is already given here so I take the
+
+minimum over all edges of the shortest
+
+path from s to u plus the weight of the
+
+edge UV that should give me the shortest
+
+path because this gave me the shortest
+
+path from s to u then I add it on the
+
+edge I need to get there and wherever
+
+the shortest path is it has some it uses
+
+some last edge UV there's got to be some
+
+choice of U that's the right one that's
+
+the that's the good guess that we're
+
+hoping for we don't know what the good
+
+guess is so we just try them all but
+
+whatever it is this will be the weight
+
+of that path it's going to take the best
+
+path from s to u because sometimes the
+
+shortest paths are shortest paths
+
+optimal substructure so this part will
+
+be Delta of SU this part is obviously W
+
+of UV so this will give the right answer
+
+hopefully ok it's certainly gonna I mean
+
+this is the analog of the naive
+
+recursive algorithm for Fibonacci so
+
+it's not going to be efficient if I I
+
+mean this is an algorithm right
+
+you could set you this is a recursive
+
+call and treat this as a recursive call
+
+instead of just a definition then this
+
+is a recursive algorithm how good or bad
+
+is this recursive algorithm terrible
+
+very good very bad I should say it's
+
+definitely going to be exponential
+
+without memorization so but we know we
+
+know how to make algorithms better we
+
+memorize okay so you can I think you
+
+know how to write this as a memorized
+
+algorithm to define the function Delta
+
+of SV you first check is s comma V in
+
+the memo table if so return that value
+
+otherwise do this computation
+
+this is a recursive call and then store
+
+it in the memo table okay I don't think
+
+I need to write that down just like the
+
+memorize code over there just there's
+
+now two arguments instead of one in fact
+
+s isn't changing so I only need to store
+
+with V instead of s comma V is that a
+
+good algorithm my claim memorization
+
+makes everything faster is that a fast
+
+algorithm
+
+that's so obvious I guess
+
+yes okay how many people think yes it's
+
+a good algorithm better definitely
+
+better can't be worse how many people
+
+think it's a bad algorithm still okay so
+
+three four yes zero for know how many
+
+people aren't sure yeah including the
+
+yes votes good uh-huh all right it's not
+
+so tricky let me draw you a graph
+
+something like that so we wanted to
+
+commute Delta of s comma V let me give
+
+these guys names a and B so we compute
+
+Delta of s comma B to compute that we
+
+need to know Delta of s comma a and
+
+Delta of s comma B those are the two
+
+ways or sorry actually we just need one
+
+only one incoming edge to V so it's
+
+Delta of s comma a sorry I should have
+
+put a base case here too Delta of s
+
+comma s equals zero say okay Delta of s
+
+comma a plus the edge okay there's some
+
+shortest path to a to compute the true
+
+path to a we look at all the incoming
+
+edges to a there's only one so Delta of
+
+s comma B now I want to compute the
+
+shortest path from B oh well there's two
+
+ways to get to be one of them is Delta
+
+of s comma B sorry s comma s came from s
+
+the other way is Delta of s comma V do
+
+you see a problem yeah
+
+Delta of s comma B what we were trying
+
+to figure out now you might say oh it's
+
+okay because we're going to memorize our
+
+answer to Delta s comma V and then we
+
+can reuse it here except we haven't
+
+finished computing Delta of s comma B we
+
+can only put it in the memo table once
+
+we're done so at this one this call
+
+happens the memo table has not been set
+
+and we're going to do the same thing
+
+over and over and over again this is an
+
+infinite algorithm oops not so hot so
+
+it's going to be infinite time on grass
+
+with cycles okay for DAGs or a cyclic
+
+graphs it actually runs in V Plus E time
+
+this is the good case in this situation
+
+we can use this formula the time is
+
+equal to the number of subproblems times
+
+the time person problem so I guess we
+
+have to think about that a little bit
+
+where's my code here's my code a number
+
+of subproblems is V there's V different
+
+subproblems that I'm using here I'm
+
+always reusing subproblems of the form
+
+Delta s comma something something could
+
+be any of the V vertices how much time
+
+do I spend per subproblem hmm that's a
+
+little tricky it's a number of incoming
+
+edges to V so time for subproblem Delta
+
+of SV is the in degree of V the number
+
+of incoming edges to V so I this depends
+
+on V so I can't just take a
+
+straightforward product here what this
+
+is really saying is you should sum up
+
+over all subproblems of the time per
+
+subproblem so total time is the sum over
+
+all the V of the in degree V and we know
+
+this is number of edges a it's really
+
+sub in degree plus 1 and 3 plus 1 so
+
+this is V Plus V ok handshaking lemma
+
+again okay now we already knew an
+
+algorithm for shortest paths and DAGs
+
+and it ran in V + e time so it's another
+
+way to do the same thing if you think
+
+about it long enough
+
+this algorithm memorized is essentially
+
+doing a depth-first search to do a
+
+topological sort to run one round of
+
+bellman-ford so we had topological sort
+
+plus one round of bellman-ford this is
+
+kind of it all rolled into one
+
+this should look kind of like the
+
+bellman-ford relaxation step or a
+
+shortest path relaxation step it is this
+
+man is really doing the same thing so
+
+it's really the same algorithm but we
+
+come at it from a different perspective
+
+okay but I claim I can use this same
+
+approach to solve shortest paths in
+
+general graphs even when they have
+
+cycles oh how am I going to do that
+
+dag seemed fine Oh what was the lesson
+
+learned here lesson learned is that
+
+sub-problem dependencies should be a
+
+cyclic otherwise we get an infinite
+
+algorithm for memorization to work this
+
+is what you need that's all you need
+
+okay we've almost seen this already
+
+because I said that to do a bottom-up
+
+algorithm you do a topological sort of
+
+the subproblem dependency dag I already
+
+said it should be a cyclic okay we just
+
+forgot I didn't tell you yet so for that
+
+to work it better be a cyclic 4dp to
+
+work for memorization to work it better
+
+be a cyclic if you're a cyclic then this
+
+is the running time so that's all
+
+general
+
+okay so somehow I need to take a cyclic
+
+graph and make it a cyclic hmm you've
+
+actually done this already in recitation
+
+so if I have a graph now let's let's
+
+take a very simple cyclic graph okay one
+
+thing I could do is explode it into
+
+multiple layers you did this on quiz two
+
+in various forms okay it's like the only
+
+cool thing you can do is shortest paths
+
+I feel like you want to make a shortest
+
+path from harder require that you reduce
+
+your graph to K copies of the graph all
+
+right I'm going to do it in a particular
+
+way here which I think you've seen in
+
+recitation which is to think of this
+
+axis as time or however you want and
+
+make all of the edges go from each layer
+
+to the next layer okay this should be a
+
+familiar technique so the idea is every
+
+time I follow an edge I go down to the
+
+next layer this makes any graph a cyclic
+
+done what in the world is does this
+
+meaning what is it doing what does it
+
+mean double rainbow all right so I don't
+
+know how I've gone so long in the
+
+semester without referring to double
+
+rainbow I used to be my favorite alright
+
+so here's what it means delta sub-k MSV
+
+I'm going to define this first this is a
+
+new kind of sub problem which is what is
+
+the shortest what's the weight of the
+
+shortest
+
+s2v path that uses at most K edges
+
+so I want it to be shortest in terms of
+
+total weight but I also wanted to use
+
+few edges total so this is going to be 0
+
+some sense if you look at so here's
+
+here's s and I'm always going to make s
+
+this and then this is going to be V in
+
+the zero situation this is going to be V
+
+in the one situation V so if I look at
+
+this V I look at the shortest path from
+
+s to V that is Delta sub-zero of SV so
+
+maybe I'll call this V sub-zero piece of
+
+one piece of - ok shortest path from
+
+here to here is the there's no way to
+
+get there and 0 edges shortest path from
+
+here to here that's is the best way to
+
+get there with at most one edge shortest
+
+path from here to here well if I add
+
+some vertical edges to I guess cheating
+
+a little bit then this is the best way
+
+to get from s to V using at most two
+
+edges and then you get a recurrence
+
+which is the min over all last edges so
+
+just copying that recurrence but
+
+realizing that the the s to u part uses
+
+one fewer edge and then I use the edge
+
+UV ok that's our new recurrence by
+
+adding this K parameter I've made this
+
+recurrence on subproblems a cyclic
+
+unfortunately I've increased the number
+
+of subproblems number of subproblems now
+
+is V squared
+
+technically V times V minus 1 because I
+
+really actually V squared so okay right
+
+I start at 0 and what I care about the
+
+my goal is Delta sub V minus 1 of SV
+
+because my bellman-ford analysis I know
+
+that I only care about simple paths has
+
+a length at most B minus 1 I'm assuming
+
+here no negative weight cycles should
+
+have said that earlier if you assume
+
+that then this is what I care about
+
+so K ranges from 0 to V minus 1 so there
+
+are V choices for K there V choices for
+
+V so the number of subproblems is V
+
+squared how much time do I spend per
+
+subproblem well same as before the in
+
+degree
+
+here the in degree of that problem so
+
+what I'm really doing is summing over
+
+all V of the in degree and then I
+
+multiply it by V so the running time
+
+total running time is V E sound familiar
+
+this is bellman-ford algorithm again and
+
+this is actually where Bellman's for
+
+bellman-ford algorithm came from is this
+
+view on dynamic programming so we've
+
+seen yet another way to do bellman-ford
+
+it may seem familiar but in the next
+
+three lectures we're going to see a
+
+whole bunch of problems that can succumb
+952
+00:51:43,110 --> 00:00:00,000
+to the same approach and super cool

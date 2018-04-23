@@ -1,0 +1,202 @@
+﻿alors quelques notions de base sur cette
+
+idée de fonction vous avez dans les
+
+classes précédentes rassemblement
+
+quatrième l'expression en fonction deux
+
+ans quand on étudie un phénomène une
+
+valeur en fonction d'une autre et bien
+
+là nous avons avoir une contexte un peu
+
+plus mathématique et cette histoire
+
+cette notion de fonction alors une
+
+fonction qu'est ce que c'est c'est une
+
+machine
+
+c'est un procédé qui à n'importe quel
+
+nombre x nom de départ j'associe un
+
+unique nombre d'arrivées fdx 7-6 7/1
+
+membres fgx est aussi un nombre
+
+cette écriture est particulièrement
+
+pratique parce que on voit l'action de
+
+la fonction f sur le nombre x et la
+
+fonction f
+
+elle est ici alors pour travailler pour
+
+pour commencer à comprendre ce que
+
+c'est qu'une une fonction on peut
+
+l'aborder de trois façons différentes
+
+la première façon par un graphique
+
+donc par exemple ici on nous dit ben
+
+voici une représentation graphique de
+
+d'une fonction f
+
+et bien en fait sur ce graphique on va
+
+lire en abscisse x c'est-à-dire lé
+
+nombre de départs et en ordonnée fdx
+
+c'est à dire le nombre d'arrivées donc
+
+pour l'exemple ici en l'occurrence on
+
+voit que on a un point de la courbe qui
+
+est dab 6-2 et d'ordonner 3 ça veut
+
+dire qu'à 2 nombre de départs
+
+j'associe 3 nombre d'arrivées voilà
+
+donc le procédé m'a permis de
+
+transformer de d'associer au nombre de
+
+deux le nombre 3 voilà par un graphique
+
+deuxième façon de présenter les
+
+choses avec un tableau par exemple ici
+
+vous avez un tableau et quelle première
+
+ligne vous avez certains nombreux x
+
+voilà par exemple 6 015 et à chaque
+
+fois est bien l'oeuvre de x associés
+
+sert le nombre d'arrivées associés à
+
+ces nombreux là donc on oublie que pour
+
+le nombre
+
+0 nombre de départs le nombre
+
+d'arrivées c'est moins 2 à 0 on
+
+associe le nombre - 2 à 1 le nombre 4
+
+et à cinq le nombre 3 voilà on n'en
+
+sait pas plus que ça mais un tableau
+
+dont il pourrait être plus long pour
+
+avoir d'autres informations dans ce
+
+petit tableau on a quelques informations
+
+sur la fonction et puis un troisième
+
+cas possibles qui lui alors regardez le
+
+bien parce que c'est vraiment un cas qui
+
+aura tendance à se développer après
+
+dans les classes de lycée on va voir la
+
+formule de la fonction alors ici j'ai
+
+pris comme exemple a dit que c'est égal
+
+à 2 x o car est plus un c'est à dire
+
+que fdx le nombre d'arrivées s'obtient
+
+en prenant le carré du nombre de
+
+départs priorité les opérations je
+
+commence par le carré le carré du
+
+nombre de départs multiplié par deux
+
+et j'ajoute un donc si par exemple je
+
+veux connaître à quel nombre le nombre
+
+3 nombre de départs est associé eh
+
+bien je calcule je prends xga 3 c'est à
+
+dire je calcule f 2 3 et pour calculer f
+
+2 3 et bien dans la formule je remplace
+
+x par trois ça fait donc deux fois 3 au
+
+carré plus un maintenant je calcule ça
+
+fait donc f2 3 égale deux fois 9
+
+priorité des opérations j'ai commencé
+
+par les puissances là je vais aller un
+
+petit peu plus vite priorité des
+
+opérations deux fois 9 18
+
+et je termine par l'addition 18 points
+
+ça fait 19 noms dans cet exemple là on
+
+oeuvre 3 est associé le nombre 19
+
+voilà donc les fonctions en troisième
+
+et au lycée vont prendre de plus en
+
+plus de plus en plus de plus en plus
+
+d'importance c'est une notion
+
+fondamentale donc en troisième c'est le
+
+début on fait des choses simples on
+
+fait des choses vraiment pour pour
+
+comprendre ce grand chapitre qui va
+
+arriver donc souvenez vous de ceux ci la
+
+fonction c'est une machine à
+
+transformer les nombres dans de départ
+
+nombre d'arrivées ou qu'on appelle
+
+aussi images fdx on appelle ça l'image
+
+de x et trois façons de cerner ou de
+
+d'aborder ses fonctions le graphique le
+101
+00:04:02,760 --> 00:00:00,000
+tableau ou directement la formule
