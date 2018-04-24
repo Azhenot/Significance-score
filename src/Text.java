@@ -17,27 +17,50 @@ public class Text {
     String text = "";
     double wordCount = 0;
     ArrayList<Double> correspondances = new ArrayList<>();
+    ArrayList<Integer> localMinimums = new ArrayList<>();
+
+
 
     public Text(String fileName) {
         this.fileName = fileName;
     }
 
     public void readFile(){
-            try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 
-                String sCurrentLine;
+            String sCurrentLine;
 
-                while ((sCurrentLine = br.readLine()) != null) {
-                    if(!sCurrentLine.equals("")){
-                        text += sCurrentLine;
-                        text += " ";
-                    }
-
+            while ((sCurrentLine = br.readLine()) != null) {
+                if(!sCurrentLine.equals("")){
+                    text += sCurrentLine;
+                    text += " ";
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        handleText();
+    }
+
+    public void readFile2(){
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+
+            String sCurrentLine;
+
+            while ((sCurrentLine = br.readLine()) != null) {
+                if(!sCurrentLine.equals("")){
+                    text += sCurrentLine;
+                    text += " ";
+                }
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         handleText();
     }
@@ -56,7 +79,7 @@ public class Text {
             if(c == ' '){
                 ++cptMots;
             }
-            if(/*c == '.' || c == '?' || c == '!'*/cptMots == 15){
+            if( c == '.' || c == '?' || c == '!'/*cptMots == 15*/){
                 //If line is a timestamp, saved and phrase gets reference
                 phrases.add(new Phrase(phrase));
                 phrase = "";
@@ -201,12 +224,45 @@ public class Text {
         FileWriter fw = null;
         try {
             fw = new FileWriter("out.txt");
-            for (Double correspondance : correspondances) {
-                fw.write(String.valueOf(correspondance+"\n"));
+            System.out.println("size: "+correspondances.size());
+            int cpt = 0;
+            for (Double corr : correspondances) {
+                ++cpt;
+                if(!String.valueOf(corr).equals("NaN") && !String.valueOf(corr).equals("-Infinity")){
+                    fw.write(String.valueOf(corr)+"\n");
+                }
             }
+            fw.close();
         }catch (IOException e) {
             e.printStackTrace();
         }
+        try {
+            fw = new FileWriter("outMinimums.txt");
+            int compteur = 0;
+            int compteurMin = 0;
+            int autreCpt = 0;
+            ArrayList<Double> newLocalMinimums = new ArrayList<>();
+            System.out.println(localMinimums);
+            while(compteur < localMinimums.get(localMinimums.size()-1) && compteurMin < localMinimums.size()){
+                System.out.println("ici"+compteur+ " " +compteurMin+ " "+localMinimums.get(compteurMin));
+                if(compteur == localMinimums.get(compteurMin)){
+                    newLocalMinimums.add(correspondances.get(localMinimums.get(compteurMin)));
+                    ++compteurMin;
+                }else{
+                    System.out.println("ici");
+                    newLocalMinimums.add(0.0);
+                }
+                ++compteur;
+            }
+            for (Double corr : newLocalMinimums) {
+                fw.write(String.valueOf(corr)+"\n");
+            }
+            fw.close();
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public ArrayList<Double> wordsCluster1In2(ArrayList<Phrase> clusterPhrases1,ArrayList<Phrase>  clusterPhrases2){
@@ -247,6 +303,66 @@ public class Text {
         for(Phrase phrase: phrases){
             phrase.read();
         }
+    }
+
+    public void smoothing(){
+        int cpt = 0;
+        while(cpt < correspondances.size()-2){
+            Double A = correspondances.get(cpt+2) - correspondances.get(cpt);
+            correspondances.set(cpt+1,correspondances.get(cpt)+(A/2));
+            ++cpt;
+        }
+    }
+
+    public void localMinima(Double cohesion) {
+        int cpt = 0;
+        Double min;
+        Double max;
+        boolean descending = false;
+        ArrayList<Integer> maximums = new ArrayList<>();
+        ArrayList<Integer> minimums = new ArrayList<>();
+        if(correspondances.get(0) > correspondances.get(1)) {
+            descending = true;
+            maximums.add(0);
+        }
+        while(cpt < correspondances.size()-1) {
+            if (!descending) {
+                if (correspondances.get(cpt + 1) > correspondances.get(cpt)) {
+                    max = correspondances.get(cpt);
+                } else {
+                    maximums.add(cpt);
+                    descending = true;
+                }
+            }else {
+                if (correspondances.get(cpt + 1) < correspondances.get(cpt)) {
+                    min = correspondances.get(cpt);
+                } else {
+                    minimums.add(cpt);
+                    descending = false;
+                }
+            }
+            ++cpt;
+        }
+
+        cpt = 0;
+        System.out.println(correspondances.size()+"minimum"+minimums);
+        while(cpt < minimums.size()){
+            double difference1 = correspondances.get(maximums.get(cpt)) - correspondances.get(minimums.get(cpt));
+            double difference2 = correspondances.get(maximums.get(cpt+1)) - correspondances.get(minimums.get(cpt));
+            if(((difference1+difference2)/2) > cohesion){
+                localMinimums.add(minimums.get(cpt));
+            }
+            ++cpt;
+        }
+
+    }
+
+    public Double average(ArrayList<Integer> list){
+        double somme = 0;
+        for(Integer cpt: list){
+            somme += correspondances.get(cpt);
+        }
+        return somme/correspondances.size();
     }
 
 }
