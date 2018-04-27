@@ -24,7 +24,10 @@ public class Main {
         text.smoothing();
         text.smoothing();
         text.smoothing();
-        text.localMinima(10.0);
+        text.smoothing();
+
+
+        text.localMinima(5.0);
         text.writeInFile();
         //text.readPhrases();
 

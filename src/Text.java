@@ -49,13 +49,18 @@ public class Text {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 
             String sCurrentLine;
-
+            String before = "";
+            String timeStamp;
             while ((sCurrentLine = br.readLine()) != null) {
                 if(!sCurrentLine.equals("")){
-                    text += sCurrentLine;
-                    text += " ";
+                    if(sCurrentLine.contains("-->")){
+                        timeStamp = sCurrentLine;
+                    }else{
+                        text += before;
+                        text += " ";
+                    }
+                    before = sCurrentLine;
                 }
-
             }
 
         } catch (IOException e) {
@@ -224,7 +229,6 @@ public class Text {
         FileWriter fw = null;
         try {
             fw = new FileWriter("out.txt");
-            System.out.println("size: "+correspondances.size());
             int cpt = 0;
             for (Double corr : correspondances) {
                 ++cpt;
@@ -242,14 +246,11 @@ public class Text {
             int compteurMin = 0;
             int autreCpt = 0;
             ArrayList<Double> newLocalMinimums = new ArrayList<>();
-            System.out.println(localMinimums);
             while(compteur < localMinimums.get(localMinimums.size()-1) && compteurMin < localMinimums.size()){
-                System.out.println("ici"+compteur+ " " +compteurMin+ " "+localMinimums.get(compteurMin));
                 if(compteur == localMinimums.get(compteurMin)){
                     newLocalMinimums.add(correspondances.get(localMinimums.get(compteurMin)));
                     ++compteurMin;
                 }else{
-                    System.out.println("ici");
                     newLocalMinimums.add(0.0);
                 }
                 ++compteur;
@@ -307,11 +308,20 @@ public class Text {
 
     public void smoothing(){
         int cpt = 0;
+        ArrayList<Double> correspondances2 = new ArrayList<>();
+        correspondances2.add(correspondances.get(0));
+
         while(cpt < correspondances.size()-2){
-            Double A = correspondances.get(cpt+2) - correspondances.get(cpt);
-            correspondances.set(cpt+1,correspondances.get(cpt)+(A/2));
+            Double A = (correspondances.get(cpt+2) - correspondances.get(cpt))/2;
+            A = A + correspondances.get(cpt);
+            Double B = (correspondances.get(cpt+1) + A)/2;
+
+            correspondances2.add(cpt+1,B);
             ++cpt;
         }
+        correspondances2.add(correspondances.get(cpt));
+        correspondances = correspondances2;
+
     }
 
     public void localMinima(Double cohesion) {
@@ -345,11 +355,13 @@ public class Text {
         }
 
         cpt = 0;
-        System.out.println(correspondances.size()+"minimum"+minimums);
-        while(cpt < minimums.size()){
-            double difference1 = correspondances.get(maximums.get(cpt)) - correspondances.get(minimums.get(cpt));
-            double difference2 = correspondances.get(maximums.get(cpt+1)) - correspondances.get(minimums.get(cpt));
-            if(((difference1+difference2)/2) > cohesion){
+        System.out.println(minimums.size() + " " + maximums.size());
+        while(cpt < minimums.size() && cpt < maximums.size()-1){
+            Double difference1 = correspondances.get(maximums.get(cpt)) - correspondances.get(minimums.get(cpt));
+            Double difference2 = correspondances.get(maximums.get(cpt+1)) - correspondances.get(minimums.get(cpt));
+            Double toDiff = (difference1+difference2)/2;
+            System.out.println(correspondances.get(maximums.get(cpt))+ " " + correspondances.get(maximums.get(cpt+1)) + " "+ correspondances.get(minimums.get(cpt)) + " " +difference1 + " " + difference2 + " " +toDiff);
+            if(difference1 > toDiff-cohesion && difference2 > toDiff-cohesion){
                 localMinimums.add(minimums.get(cpt));
             }
             ++cpt;
