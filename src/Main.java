@@ -29,6 +29,7 @@ public class Main {
 
         text.localMinima(5.0);
         text.writeInFile();
+        text.generateGraph();
         //text.readPhrases();
 
 

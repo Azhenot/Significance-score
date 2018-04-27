@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Tristan on 23-04-18.
@@ -377,4 +378,20 @@ public class Text {
         return somme/correspondances.size();
     }
 
+    public void generateGraph() {
+        ProcessBuilder pb = new ProcessBuilder("node", "generateSigGraph.js");
+        pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+        try {
+            Process p = pb.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
